@@ -1,5 +1,4 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn.datasets import load_breast_cancer
 
 # Load dataset
@@ -23,10 +22,13 @@ print('Distribution of malignant and benign =')
 df2 = pd.DataFrame(data.target,columns=['target'])
 print(df2.sample(5))
 
-# Count the classes
-class_counts=df2['target'].value_counts()
-plt.pie(class_counts, labels=class_counts.index, autopct='%1.2f%%', colors=['pink', 'purple'])
-plt.show()
+class_counts = df2['target'].value_counts()
+total = class_counts.sum()
+percentages = (class_counts / total * 100).round(2)
+
+for label, pct in zip(class_counts.index, percentages):
+    tumor_type = 'Malignant' if label == 0 else 'Benign'
+    print(f"{tumor_type}: {pct}%")
 
 # Calculate imbalance ratio
 minority_ratio = class_counts.min() / class_counts.sum()
